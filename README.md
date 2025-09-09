@@ -26,7 +26,7 @@ Add the dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  glam_ar_sdk: ^2.0.0
+  glam_ar_sdk: ^1.0.0
 ```
 
 Run:
