@@ -1,1 +1,7 @@
-example/**
+example/
+build/
+android/
+ios/
+test/
+.gitignore
+*.iml

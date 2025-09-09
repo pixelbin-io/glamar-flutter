@@ -195,7 +195,7 @@ GlamAr.removeEventListener('loaded');
 
 ## Version History
 
-* **2.0.0** (Latest)
+* **1.0.0** (Latest)
 
   * New Flutter SDK structure
   * Headless WebView preload + attach
