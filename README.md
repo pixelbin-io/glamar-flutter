@@ -207,4 +207,4 @@ GlamAr.removeEventListener('loaded');
 
 ## Support
 
-For support and bug reports, please create an issue in our GitHub repository or contact support at [support@pixelbin.io](mailto:support@pixelbin.io).
+For support and bug reports, please create an issue in our GitHub repository or contact support at [support@glamar.io](mailto:support@glamar.io).
