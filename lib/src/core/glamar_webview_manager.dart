@@ -68,9 +68,9 @@ class GlamArWebViewManager {
     final api = GlamArApi(accessKey: accessKey, enableCurlLogging: _debug);
 
     String? fetched;
-    
     try {
-      final appId = _overrides?.configuration?['skinAnalysis']?['appId']?.toString();
+      final appId = _overrides?.configuration?['skinAnalysis']?['appId']
+          ?.toString();
       fetched = await api.getVersion(appId: appId);
     } catch (e, st) {
       if (_debug) GLogger.e('GlamAr', e, st);
