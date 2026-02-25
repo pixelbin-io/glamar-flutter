@@ -66,23 +66,33 @@ class GlamAr {
 
   // ---- Public JS command helpers (names mirror Android) ----
 
-  static void applyBySku(
-    String skuId,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'applyBySku', payload: { skuId: '$skuId' } }, '*');",
-  );
+  static void applyBySku(String skuId) {
+    final payload = jsonEncode({'skuId': skuId});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'applyBySku', payload: $payload }, '*');",
+    );
+  }
 
-  static void applyByCategory(
-    String category,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'applyByCategory', payload: '$category' }, '*');",
-  );
+  static void applyByCategory(String category) {
+    final payload = jsonEncode(category);
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'applyByCategory', payload: $payload }, '*');",
+    );
+  }
 
-  static void applyPatternById(
-    String patternId,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'applyPatternByID', payload: { patternId: '$patternId' } }, '*');",
-  );
+  static void applyBySubCategory(String subCategory) {
+    final payload = jsonEncode(subCategory);
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'applyBySubCategory', payload: $payload }, '*');",
+    );
+  }
+
+  static void applyPatternById(String patternId) {
+    final payload = jsonEncode({'patternId': patternId});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'applyPatternByID', payload: $payload }, '*');",
+    );
+  }
 
   static void applyByMultipleConfigData(dynamic config) {
     final serialized = jsonEncode(config);
@@ -91,22 +101,25 @@ class GlamAr {
     );
   }
 
-  static void addedToCart(
-    String skuId,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'addedToCart', payload: '$skuId' }, '*');",
-  );
+  static void addedToCart(String skuId) {
+    final payload = jsonEncode(skuId);
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'addedToCart', payload: $payload }, '*');",
+    );
+  }
 
-  static void addedToWishlist(
-    String skuId,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'addedToWishlist', payload: '$skuId' }, '*');",
-  );
+  static void addedToWishlist(String skuId) {
+    final payload = jsonEncode(skuId);
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'addedToWishlist', payload: $payload }, '*');",
+    );
+  }
 
   static void open({String? mode, String? imgURL}) {
     if (mode != null && mode.isNotEmpty) {
+      final payload = jsonEncode({'mode': mode, 'imgURL': imgURL ?? ''});
       GlamArWebViewManager.evaluateJavascript(
-        "window.parent.postMessage({ type: 'openLivePreview', payload: { mode: '$mode', imgURL: '${imgURL ?? ''}' } }, '*');",
+        "window.parent.postMessage({ type: 'openLivePreview', payload: $payload }, '*');",
       );
     } else {
       GlamArWebViewManager.evaluateJavascript(
@@ -131,17 +144,24 @@ class GlamAr {
     "window.parent.postMessage({ type: 'clearSku' }, '*');",
   );
 
-  static void skinAnalysis(
-    String options,
-  ) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'skinAnalysis', payload: { options: '$options' } }, '*');",
-  );
+  static void skinAnalysis(String options) {
+    final payload = jsonEncode({'options': options});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'skinAnalysis', payload: $payload }, '*');",
+    );
+  }
 
-  static void eyePD(String options) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'eyePD', payload: { options: '$options' } }, '*');",
-  );
+  static void eyePD(String options) {
+    final payload = jsonEncode({'options': options});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'eyePD', payload: $payload }, '*');",
+    );
+  }
 
-  static void openUI(String name) => GlamArWebViewManager.evaluateJavascript(
-    "window.parent.postMessage({ type: 'openUi', payload: { name: '$name' } }, '*');",
-  );
+  static void openUI(String name) {
+    final payload = jsonEncode({'name': name});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'openUi', payload: $payload }, '*');",
+    );
+  }
 }

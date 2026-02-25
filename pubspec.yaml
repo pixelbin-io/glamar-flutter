@@ -1,6 +1,6 @@
 name: glam_ar_sdk
 description: Flutter SDK for GlamAR virtual try-on using WebView-based rendering with real-time AR.
-version: 1.0.0
+version: 1.0.1
 
 homepage: https://www.glamar.io/
 repository: https://github.com/pixelbin-io/glamar-flutter
@@ -19,16 +19,14 @@ dependencies:
   intl: ^0.20.2
   package_info_plus: ^8.3.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
+  http_mock_adapter: ^0.6.1
 
 flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
-
