@@ -1,3 +1,8 @@
+## 1.0.2
+
+- Security patch: Fixed unsafe JSON string evaluation blocks
+- Added logging and fixed `getVersion` URL construction
+
 ## 1.0.1
 
 - Added `applyBySubCategory` method
