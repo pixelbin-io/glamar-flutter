@@ -78,6 +78,12 @@ class GlamAr {
     "window.parent.postMessage({ type: 'applyByCategory', payload: '$category' }, '*');",
   );
 
+  static void applyBySubCategory(
+    String subCategory,
+  ) => GlamArWebViewManager.evaluateJavascript(
+    "window.parent.postMessage({ type: 'applyBySubCategory', payload: '$subCategory' }, '*');",
+  );
+
   static void applyPatternById(
     String patternId,
   ) => GlamArWebViewManager.evaluateJavascript(

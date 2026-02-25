@@ -4,21 +4,21 @@
 
 The **GlamAR Flutter SDK** provides an easy way to embed GlamAR’s WebView-based Augmented Reality experience inside your Flutter applications. It enables virtual try-on for categories like makeup, jewelry, and eyewear with:
 
-* Real-time AR preview
-* Face tracking and analysis
-* SKU/category application
-* Snapshot support
-* Simple Flutter APIs that mirror the native Android SDK
+- Real-time AR preview
+- Face tracking and analysis
+- SKU/category application
+- Snapshot support
+- Simple Flutter APIs that mirror the native Android SDK
 
 ## Features
 
-* Real-time virtual try-on for multiple categories
-* Camera and image-based preview modes
-* WebView-based rendering (headless preload + visible attach)
-* Snapshot functionality
-* Configurable parameters (disable back/close, open live on init, etc.)
-* Event handling (listen to `init-complete`, `loaded`, and custom events)
-* Cross-platform Flutter API surface similar to native Android
+- Real-time virtual try-on for multiple categories
+- Camera and image-based preview modes
+- WebView-based rendering (headless preload + visible attach)
+- Snapshot functionality
+- Configurable parameters (disable back/close, open live on init, etc.)
+- Event handling (listen to `init-complete`, `loaded`, and custom events)
+- Cross-platform Flutter API surface similar to native Android
 
 ## Installation
 
@@ -81,11 +81,20 @@ void main() async {
   await GlamAr.init(
     accessKey: 'YOUR_ACCESS_KEY', // Replace with your actual key
     debug: true,
+
+    //required for skin analysis.
+    overrides: GlamAROverrides(
+      configuration: {
+        'skinAnalysis': {
+          'appId': 'YOUR_SKIN_ANALYSIS_APP_ID',
+        },
+      },
+    ),
   );
 
   GlamAr.addEventListener('init-complete', (payload) {
     debugPrint('GlamAR SDK Initialized: \$payload');
-    GlamAr.applyByCategory('sunglasses');
+    GlamAr.applyByCategory('eyewear');
   });
 
   GlamAr.addEventListener('loaded', (payload) {
@@ -156,7 +165,8 @@ class _GlamArViewState extends State<GlamArView> {
 
 ```dart
 GlamAr.applyBySku("SKU_ID");
-GlamAr.applyByCategory("sunglasses");
+GlamAr.applyByCategory("eyewear");
+GlamAr.applyBySubCategory("sunglasses");
 GlamAr.applyByMultipleConfigData({
   "category": "sunglasses",
   "options": {
@@ -195,15 +205,17 @@ GlamAr.removeEventListener('loaded');
 
 ## Version History
 
-* **1.0.0** (Latest)
+- **1.0.1** (Latest)
+  - Added `applyBySubCategory` method
+  - Added version changes for skin analysis
 
-  * New Flutter SDK structure
-  * Headless WebView preload + attach
-  * Added multiple config API
+- **1.0.0**
+  - New Flutter SDK structure
+  - Headless WebView preload + attach
+  - Added multiple config API
 
-* **1.0.x**
-
-  * Initial Flutter integration
+- **1.0.x**
+  - Initial Flutter integration
 
 ## Support
 
