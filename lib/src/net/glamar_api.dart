@@ -48,9 +48,39 @@ class GlamArApi {
   bool get development => _development;
 
   /// GET /service/private/misc/v3.0/sdk-settings/versio
-  Future<String?> getVersion() async {
-    const path = '/service/private/misc/v3.0/sdk-settings/version';
-    final headers = {
+  // Future<String?> getVersion(String appId = null) async {
+  //   const path = '/service/private/misc/v3.0/sdk-settings/version${appId ? `?appId=${appId}` : ''}';
+  //   final headers = {
+  //     'Authorization': 'Bearer ${base64Encode(utf8.encode(accessKey))}',
+  //   };
+
+  //   try {
+  //     final res = await _dio.get<Map<String, dynamic>>(
+  //       path,
+  //       options: Options(headers: headers),
+  //     );
+
+  //     final code = res.statusCode ?? 0;
+  //     if (code >= 200 && code < 300) {
+  //       final data = res.data ?? const {};
+  //       final parsed = VersionResponse.fromJson(data);
+  //       return parsed.sdkVersion;
+  //     }
+  //     return null;
+  //   } on DioException {
+  //     return null;
+  //   }
+  // }
+
+  Future<String?> getVersion({String? appId}) async {
+    const basePath = '/service/private/misc/v3.0/sdk-settings/version';
+
+    final trimmed = appId?.trim();
+    final path = (trimmed != null && trimmed.isNotEmpty)
+        ? '$basePath?appId=${Uri.encodeQueryComponent(trimmed)}'
+        : basePath;
+
+    final headers = <String, String>{
       'Authorization': 'Bearer ${base64Encode(utf8.encode(accessKey))}',
     };
 
@@ -62,7 +92,7 @@ class GlamArApi {
 
       final code = res.statusCode ?? 0;
       if (code >= 200 && code < 300) {
-        final data = res.data ?? const {};
+        final data = res.data ?? const <String, dynamic>{};
         final parsed = VersionResponse.fromJson(data);
         return parsed.sdkVersion;
       }
