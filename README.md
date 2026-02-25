@@ -205,7 +205,11 @@ GlamAr.removeEventListener('loaded');
 
 ## Version History
 
-- **1.0.1** (Latest)
+- **1.0.2** (Latest)
+  - Security patch: Fixed unsafe JSON string evaluation blocks
+  - Fixed `getVersion` URL construction
+
+- **1.0.1**
   - Added `applyBySubCategory` method
   - Added version changes for skin analysis
 

@@ -1,6 +1,6 @@
 name: glam_ar_sdk
 description: Flutter SDK for GlamAR virtual try-on using WebView-based rendering with real-time AR.
-version: 1.0.1
+version: 1.0.2
 
 homepage: https://www.glamar.io/
 repository: https://github.com/pixelbin-io/glamar-flutter
