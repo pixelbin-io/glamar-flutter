@@ -101,6 +101,28 @@ class GlamAr {
     );
   }
 
+  static void comparison(String state, List<String> skus) {
+    final payload = jsonEncode({'state': state, 'skus': skus});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'comparison', payload: $payload }, '*');",
+    );
+  }
+
+  static void onNailColorEvents({String? options, dynamic value}) {
+    final payload = <String, dynamic>{};
+    if (options != null) {
+      payload['options'] = options;
+    }
+    if (value != null) {
+      payload['value'] = value;
+    }
+
+    final serialized = jsonEncode(payload);
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'nailColor', payload: $serialized }, '*');",
+    );
+  }
+
   static void addedToCart(String skuId) {
     final payload = jsonEncode(skuId);
     GlamArWebViewManager.evaluateJavascript(

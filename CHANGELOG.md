@@ -1,3 +1,8 @@
+## 1.0.3
+
+- Added `GlamAr.comparison` method.
+- Added `GlamAr.onNailColorEvents` method.
+
 ## 1.0.2
 
 - Security patch: Fixed unsafe JSON string evaluation blocks
