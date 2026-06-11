@@ -26,5 +26,17 @@ void main() {
         );
       },
     );
+
+    test('configChange serializes type and numeric value payload', () {
+      final payload = jsonEncode({'type': 'opacity', 'value': 0.5});
+
+      final expectedJsCommand =
+          "window.parent.postMessage({ type: 'onConfigChange', payload: $payload }, '*');";
+
+      expect(
+        expectedJsCommand,
+        'window.parent.postMessage({ type: \'onConfigChange\', payload: {"type":"opacity","value":0.5} }, \'*\');',
+      );
+    });
   });
 }

@@ -174,6 +174,7 @@ GlamAr.applyByMultipleConfigData({
     "lens": "polarized",
   },
 });
+GlamAr.configChange("opacity", 0.5);
 GlamAr.open(mode: "live");
 GlamAr.close();
 GlamAr.back();
