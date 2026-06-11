@@ -101,6 +101,13 @@ class GlamAr {
     );
   }
 
+  static void configChange(String type, num value) {
+    final payload = jsonEncode({'type': type, 'value': value});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'onConfigChange', payload: $payload }, '*');",
+    );
+  }
+
   static void comparison(String state, List<String> skus) {
     final payload = jsonEncode({'state': state, 'skus': skus});
     GlamArWebViewManager.evaluateJavascript(

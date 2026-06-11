@@ -1,3 +1,8 @@
+## 1.0.4
+
+- Added `GlamAr.configChange` method.
+- Added API documentation and test coverage for `onConfigChange` payloads.
+
 ## 1.0.3
 
 - Added `GlamAr.comparison` method.
