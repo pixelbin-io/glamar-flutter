@@ -1,3 +1,11 @@
+## 1.0.5
+
+- Added optional catalog options support for `GlamAr.applyByCategory`.
+- Added optional catalog options support for `GlamAr.applyBySubCategory`.
+- Added optional payload support for `GlamAr.reset`.
+- Added optional `value`, `skuId`, and `subCategory` payload support for `GlamAr.configChange`.
+- Added `GlamAr.setViewportMirrored` method.
+
 ## 1.0.4
 
 - Added `GlamAr.configChange` method.

@@ -166,7 +166,9 @@ class _GlamArViewState extends State<GlamArView> {
 ```dart
 GlamAr.applyBySku("SKU_ID");
 GlamAr.applyByCategory("eyewear");
+GlamAr.applyByCategory("eyewear", {"storeFront": "store_a"});
 GlamAr.applyBySubCategory("sunglasses");
+GlamAr.applyBySubCategory("sunglasses", {"storeFront": "store_a"});
 GlamAr.applyByMultipleConfigData({
   "category": "sunglasses",
   "options": {
@@ -174,12 +176,25 @@ GlamAr.applyByMultipleConfigData({
     "lens": "polarized",
   },
 });
-GlamAr.configChange("opacity", 0.5);
+GlamAr.configChange("opacity", value: 0.5);
+GlamAr.configChange(
+  "opacity",
+  value: 0.5,
+  skuId: "SKU_1",
+  subCategory: "lipstick",
+);
+GlamAr.setViewportMirrored(true);
+GlamAr.setViewportMirrored(false);
 GlamAr.open(mode: "live");
 GlamAr.close();
 GlamAr.back();
 GlamAr.snapshot();
 GlamAr.reset();
+GlamAr.reset("sunglasses");
+GlamAr.reset({
+  "subCategory": "sunglasses",
+  "skuIds": ["SKU_1", "SKU_2"],
+});
 ```
 
 ## Event Handling
