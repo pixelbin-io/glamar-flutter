@@ -1,3 +1,8 @@
+## 1.0.6
+
+- Added optional version response diagnostics and a public `glamar_api.dart` entry point for version checks without creating a WebView.
+- Resolve SDK versions from the private GlamAR API first, with fallback to the private PixelBin API on request failure.
+
 ## 1.0.5
 
 - Added optional catalog options support for `GlamAr.applyByCategory`.
