@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'experience_options.dart';
 import 'glamar_webview_manager.dart';
 
 class GlamAr {
@@ -65,6 +66,80 @@ class GlamAr {
       _dispatch(type, payload);
 
   // ---- Public JS command helpers (names mirror Android) ----
+
+  /// Switches to `vto` or `skinAnalysis` in the initialized SDK.
+  ///
+  /// Skin Analysis requires [SkinAnalysisExperienceOptions] with a nonblank
+  /// appId. VTO requires [VtoExperienceOptions]; the first nonblank category,
+  /// subCategory, or skuId is sent, in that order. Values are trimmed.
+  /// Invalid input emits `error` and `experience-change-failed` events without
+  /// sending a WebView command.
+  static void setExperience(String experience, ExperienceOptions options) {
+    if (experience == 'skinAnalysis') {
+      final appId = options is SkinAnalysisExperienceOptions
+          ? options.appId?.trim() ?? ''
+          : '';
+      if (appId.isEmpty) {
+        _failExperienceChange(
+          experience,
+          'SkinAnalysis experience requires a valid appId',
+        );
+        return;
+      }
+      _sendExperienceChange(experience, {'appId': appId});
+      return;
+    }
+
+    if (experience != 'vto') {
+      _failExperienceChange(
+        experience,
+        'Experience must be either vto or skinAnalysis',
+      );
+      return;
+    }
+
+    final vtoOptions = options is VtoExperienceOptions ? options : null;
+    final category = vtoOptions?.category?.trim() ?? '';
+    if (category.isNotEmpty) {
+      _sendExperienceChange(experience, {'category': category});
+      return;
+    }
+
+    final subCategory = vtoOptions?.subCategory?.trim() ?? '';
+    if (subCategory.isNotEmpty) {
+      _sendExperienceChange(experience, {'subCategory': subCategory});
+      return;
+    }
+
+    final skuId = vtoOptions?.skuId?.trim() ?? '';
+    if (skuId.isNotEmpty) {
+      _sendExperienceChange(experience, {'skuId': skuId});
+      return;
+    }
+
+    _failExperienceChange(
+      experience,
+      'VTO experience requires category, subCategory, or skuId',
+    );
+  }
+
+  static void _sendExperienceChange(
+    String experience,
+    Map<String, String> options,
+  ) {
+    final payload = jsonEncode({'experience': experience, 'options': options});
+    GlamArWebViewManager.evaluateJavascript(
+      "window.parent.postMessage({ type: 'setExperience', payload: $payload }, '*');",
+    );
+  }
+
+  static void _failExperienceChange(String experience, String error) {
+    _dispatch('error', {'type': 'error', 'message': error});
+    _dispatch('experience-change-failed', {
+      'experience': experience,
+      'error': error,
+    });
+  }
 
   static void applyBySku(String skuId) {
     final payload = jsonEncode({'skuId': skuId});

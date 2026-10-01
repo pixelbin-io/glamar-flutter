@@ -20,13 +20,19 @@ The **GlamAR Flutter SDK** provides an easy way to embed GlamAR’s WebView-base
 - Event handling (listen to `init-complete`, `loaded`, and custom events)
 - Cross-platform Flutter API surface similar to native Android
 
+## SDK version lookup
+
+The SDK checks the version using only the Fynd GlamAR endpoint:
+`https://api.glamar.fynd.com/service/private/glamar/v3.0/sdk-settings/version`.
+For Skin Analysis, it includes the configured `appId`. If this request fails or returns no usable version, initialization uses `overrides.meta.sdkVersion` when provided, otherwise `1.0.0`.
+
 ## Installation
 
 Add the dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  glam_ar_sdk: ^1.0.0
+  glam_ar_sdk: ^3.0.0
 ```
 
 Run:
@@ -197,6 +203,47 @@ GlamAr.reset({
 });
 ```
 
+## Switching experiences
+
+After SDK initialization, use `GlamAr.setExperience` to switch experiences:
+
+```dart
+import 'package:glam_ar_sdk/glam_ar_sdk.dart';
+
+GlamAr.setExperience(
+  'vto',
+  const VtoExperienceOptions(category: 'eyewear'),
+);
+GlamAr.setExperience(
+  'vto',
+  const VtoExperienceOptions(subCategory: 'sunglasses'),
+);
+GlamAr.setExperience(
+  'vto',
+  const VtoExperienceOptions(skuId: 'SKU_ID'),
+);
+GlamAr.setExperience(
+  'skinAnalysis',
+  const SkinAnalysisExperienceOptions(appId: 'YOUR_SKIN_ANALYSIS_APP_ID'),
+);
+```
+
+Experience names are case-sensitive: `vto` and `skinAnalysis`. Option values are
+trimmed. Skin Analysis requires a nonblank `appId`. VTO requires at least one
+nonblank selector; when several are supplied, only the first is sent in this
+order: `category`, `subCategory`, `skuId`.
+
+Invalid input (including an option type that does not match the experience)
+sends no WebView command. It emits an `error` event with `{type: 'error',
+message: ...}` and an `experience-change-failed` event with `{experience: ...,
+error: ...}`. Register listeners before calling the method:
+
+```dart
+GlamAr.addEventListener('experience-change-failed', (payload) {
+  debugPrint('Experience ${payload['experience']} failed: ${payload['error']}');
+});
+```
+
 ## Event Handling
 
 ```dart
@@ -221,7 +268,12 @@ GlamAr.removeEventListener('loaded');
 
 ## Version History
 
-- **1.0.2** (Latest)
+- **3.0.0** (Unreleased)
+  - Added `setExperience` with typed VTO and Skin Analysis options
+  - SDK version checks use only the private Fynd GlamAR API
+  - Upgrade existing `^1.x` dependency constraints to `^3.0.0` to adopt this version
+
+- **1.0.2**
   - Security patch: Fixed unsafe JSON string evaluation blocks
   - Fixed `getVersion` URL construction
 

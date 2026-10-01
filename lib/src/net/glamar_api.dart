@@ -42,13 +42,12 @@ class GlamArApi {
   final Dio _dio;
 
   static const String _defaultApiBaseUrl = 'https://api.glamar.fynd.com';
-  static const String _fallbackApiBaseUrl = 'https://api.pixelbin.io';
 
   String get apiBaseUrl => _apiBaseUrl;
 
   bool get development => _development;
 
-  /// Resolve the version from GlamAR, retrying PixelBin if the request fails.
+  /// Resolve the version from the private Fynd GlamAR API.
   Future<String?> getVersion({
     String? appId,
     void Function(VersionApiResponse response)? onResponse,
@@ -57,50 +56,45 @@ class GlamArApi {
     final query = (trimmed != null && trimmed.isNotEmpty)
         ? '?appId=${Uri.encodeQueryComponent(trimmed)}'
         : '';
-    final urls = [
-      '$_apiBaseUrl/service/private/glamar/v3.0/sdk-settings/version$query',
-      '$_fallbackApiBaseUrl/service/private/misc/v3.0/sdk-settings/version$query',
-    ];
+    final url =
+        '$_apiBaseUrl/service/private/glamar/v3.0/sdk-settings/version$query';
 
     final headers = <String, String>{
       'Authorization': 'Bearer ${base64Encode(utf8.encode(accessKey))}',
     };
 
-    for (final url in urls) {
-      try {
-        final res = await _dio.get<dynamic>(
-          url,
-          options: Options(headers: headers),
-        );
+    try {
+      final res = await _dio.get<dynamic>(
+        url,
+        options: Options(headers: headers),
+      );
 
-        _reportResponse(
-          onResponse,
-          VersionApiResponse(
-            url: url,
-            statusCode: res.statusCode,
-            body: res.data,
-          ),
-        );
-        final code = res.statusCode ?? 0;
-        if (code >= 200 && code < 300) {
-          final data = res.data;
-          return data is Map<String, dynamic> && data['sdkVersion'] is String
-              ? VersionResponse.fromJson(data).sdkVersion
-              : null;
-        }
-      } on DioException catch (error) {
-        _reportResponse(
-          onResponse,
-          VersionApiResponse(
-            url: url,
-            statusCode: error.response?.statusCode,
-            body: error.response?.data,
-            error:
-                '${error.type.name}: ${error.message ?? error.error ?? 'Request failed'}',
-          ),
-        );
-        // Try the next endpoint; the caller handles the final version fallback.
+      _reportResponse(
+        onResponse,
+        VersionApiResponse(
+          url: url,
+          statusCode: res.statusCode,
+          body: res.data,
+        ),
+      );
+      final code = res.statusCode ?? 0;
+      if (code >= 200 && code < 300) {
+        final data = res.data;
+        return data is Map<String, dynamic> && data['sdkVersion'] is String
+            ? VersionResponse.fromJson(data).sdkVersion
+            : null;
       }
+    } on DioException catch (error) {
+      _reportResponse(
+        onResponse,
+        VersionApiResponse(
+          url: url,
+          statusCode: error.response?.statusCode,
+          body: error.response?.data,
+          error:
+              '${error.type.name}: ${error.message ?? error.error ?? 'Request failed'}',
+        ),
+      );
     }
     return null;
   }
@@ -112,7 +106,7 @@ class GlamArApi {
     try {
       callback?.call(response);
     } catch (_) {
-      // A diagnostics callback must not affect version lookup or fallback.
+      // A diagnostics callback must not affect version lookup.
     }
   }
 }
