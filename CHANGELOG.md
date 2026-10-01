@@ -1,4 +1,4 @@
-## 3.0.0 (Unreleased)
+## 3.0.0
 
 - Added `GlamAr.setExperience` with typed VTO and Skin Analysis options, input validation, and experience-change failure events.
 - Removed the PixelBin API fallback for SDK version checks; requests now use only the private Fynd GlamAR API.
