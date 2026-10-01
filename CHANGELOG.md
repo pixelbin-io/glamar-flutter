@@ -1,3 +1,8 @@
+## 3.0.0 (Unreleased)
+
+- Added `GlamAr.setExperience` with typed VTO and Skin Analysis options, input validation, and experience-change failure events.
+- Removed the PixelBin API fallback for SDK version checks; requests now use only the private Fynd GlamAR API.
+
 ## 1.0.6
 
 - Added optional version response diagnostics and a public `glamar_api.dart` entry point for version checks without creating a WebView.
